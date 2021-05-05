@@ -1,0 +1,15 @@
+.showcase {
+  height: 300px;
+  width: 100%;
+  color: #fff;
+  background: #000 url('/images/air-balloons.jpg') no-repeat center center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-size: 40px;
+  }
+}
