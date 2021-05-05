@@ -1,9 +1,10 @@
 import Link from 'next/link'
+import styles from '../../styles/Header.module.scss'
 
 export const Header = (): JSX.Element => {
   return (
-    <header>
-      <div>
+    <header className={styles.header}>
+      <div className={styles.logo}>
         <Link href="/">
           <a>Relaxing Songs</a>
         </Link>
