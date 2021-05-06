@@ -2,6 +2,8 @@ import { GetStaticProps } from 'next'
 import Link from 'next/link'
 
 import Layout from '@/components/Layout'
+import SongItem from '@/components/SongItem'
+
 import { API_URL } from '@/config/index'
 
 export const HomePage = ({ songs }): JSX.Element => (
@@ -9,7 +11,7 @@ export const HomePage = ({ songs }): JSX.Element => (
     <h1>Home</h1>
     {songs.length === 0 && <h3>No songs...</h3>}
     {songs.map((song) => (
-      <p key={song.id}>{song.name}</p>
+      <SongItem key={song.id} song={song} />
     ))}
     {songs.length > 0 && (
       <Link href="/songs">
