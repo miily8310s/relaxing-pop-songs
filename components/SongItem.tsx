@@ -11,7 +11,7 @@ const SongItem = ({ song }): JSX.Element => (
     </div>
 
     <div className={styles.link}>
-      <Link href={`/events/${song.slug}`}>
+      <Link href={`/songs/${song.slug}`}>
         <a className="btn">Details</a>
       </Link>
     </div>
