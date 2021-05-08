@@ -19,7 +19,7 @@ export const SongsPage = ({ songs }: { songs: Song[] }): JSX.Element => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${API_URL}/api/songs`)
+  const res = await fetch(`${API_URL}/songs`)
   const songs = await res.json()
 
   return {
