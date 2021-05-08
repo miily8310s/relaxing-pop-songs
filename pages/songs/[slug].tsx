@@ -10,8 +10,8 @@ import { API_URL } from '@/config/index'
 import styles from '@/styles/Song.module.scss'
 
 export const SongPage = ({ song }: { song: Song }): JSX.Element => {
-  const deleteEvent = (e: MouseEvent<HTMLAnchorElement>) => {
-    console.log('delete')
+  const deleteEvent = () => {
+    // console.log('delete')
   }
 
   const youtubeURL = song.youtube !== '' ? song.youtube : '#'
