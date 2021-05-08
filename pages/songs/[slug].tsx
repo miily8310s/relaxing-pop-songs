@@ -3,19 +3,24 @@ import Link from 'next/link'
 import { GetStaticProps, GetStaticPaths } from 'next'
 
 import Layout from '@/components/Layout'
+
+import { Song } from '@/types/index'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Song.module.scss'
 
-export const SongPage = ({ song }): JSX.Element => {
+export const SongPage = ({ song }: { song: Song }): JSX.Element => {
   const deleteEvent = (e: MouseEvent<HTMLAnchorElement>) => {
     console.log('delete')
   }
+
+  const youtubeURL = song.youtube !== '' ? song.youtube : '#'
+  const spotifyURL = song.spotify !== '' ? song.spotify : '#'
 
   return (
     <Layout>
       <div className={styles.song}>
         <div className={styles.controls}>
-          <Link href={`/songs/edit/${song.id}`}>
+          <Link href={`/songs/edit/${song.slug}`}>
             <a>
               <FaPencilAlt /> Edit Event
             </a>
@@ -25,17 +30,21 @@ export const SongPage = ({ song }): JSX.Element => {
           </a>
         </div>
 
-        <span>
-          {song.date} at {song.time}
-        </span>
+        <span>{song.date}</span>
         <h1>{song.name}</h1>
 
-        <h3>Performers:</h3>
-        <p>{song.performers}</p>
+        <h3>Artist:</h3>
+        <p>{song.artist}</p>
         <h3>Description:</h3>
         <p>{song.description}</p>
-        <h3>Venue: {song.venue}</h3>
-        <p>{song.address}</p>
+        <h3>Youtube: </h3>
+        <Link href={youtubeURL}>
+          <a target="_blank">Youtube Video Link</a>
+        </Link>
+        <h3>Spotify: </h3>
+        <Link href={spotifyURL}>
+          <a target="_blank">Spotify Truck Link</a>
+        </Link>
 
         <Link href="/songs">
           <a className={styles.back}>{'<'} Go Back</a>
@@ -46,7 +55,7 @@ export const SongPage = ({ song }): JSX.Element => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${API_URL}/api/songs/`)
+  const res = await fetch(`${API_URL}/songs/`)
   const songs = await res.json()
 
   const paths = songs.map((song) => {
@@ -63,7 +72,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context.params.slug
-  const res = await fetch(`${API_URL}/api/songs/${slug}`)
+  const res = await fetch(`${API_URL}/songs?slug=${slug}`)
   const songs = await res.json()
 
   if (!songs) {

@@ -4,14 +4,15 @@ import Link from 'next/link'
 import Layout from '@/components/Layout'
 import SongItem from '@/components/SongItem'
 
+import { Song } from '@/types/index'
 import { API_URL } from '@/config/index'
 
-export const HomePage = ({ songs }): JSX.Element => (
+export const HomePage = ({ songs }: { songs: Song[] }): JSX.Element => (
   <Layout>
     <h1>Home</h1>
     {songs.length === 0 && <h3>No songs...</h3>}
     {songs.map((song) => (
-      <SongItem key={song.id} song={song} />
+      <SongItem key={song.slug} song={song} />
     ))}
     {songs.length > 0 && (
       <Link href="/songs">
@@ -22,11 +23,11 @@ export const HomePage = ({ songs }): JSX.Element => (
 )
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${API_URL}/api/songs`)
+  const res = await fetch(`${API_URL}/songs`)
   const songs = await res.json()
 
   return {
-    props: { songs: songs.slice(0, 3) },
+    props: { songs },
     revalidate: 1,
   }
 }
