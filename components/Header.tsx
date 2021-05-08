@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Search from '@/components/Search'
 import styles from '@/styles/Header.module.scss'
 
 export const Header = (): JSX.Element => {
@@ -11,6 +12,9 @@ export const Header = (): JSX.Element => {
       </div>
       <nav>
         <ul>
+          <li>
+            <Search />
+          </li>
           <li>
             <Link href="/songs">Songs</Link>
           </li>
