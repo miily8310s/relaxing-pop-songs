@@ -1,5 +1,6 @@
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import Link from 'next/link'
+import Image from 'next/image'
 import { GetStaticProps, GetStaticPaths } from 'next'
 
 import Layout from '@/components/Layout'
@@ -32,6 +33,15 @@ export const SongPage = ({ song }: { song: Song }): JSX.Element => {
 
         <span>{song.date}</span>
         <h1>{song.name}</h1>
+        {song.image && (
+          <div className={styles.image}>
+            <Image
+              src={song.image.formats.medium.url}
+              width={960}
+              height={600}
+            />
+          </div>
+        )}
 
         <h3>Artist:</h3>
         <p>{song.artist}</p>

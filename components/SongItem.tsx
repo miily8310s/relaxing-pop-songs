@@ -4,7 +4,7 @@ import styles from '@/styles/SongItem.module.scss'
 import { Song } from '@/types/index'
 
 const SongItem = ({ song }: { song: Song }): JSX.Element => (
-  <div className={styles.event}>
+  <div className={styles.song}>
     <div className={styles.img}>
       <Image
         src={
