@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import Layout from '@/components/Layout'
+import Modal from '@/components/Modal'
 
 import { Song } from '@/types/index'
 
@@ -26,6 +27,8 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
     youtube: song.youtube,
     spotify: song.spotify,
   })
+
+  const [showModal, setShowModal] = useState(false)
 
   const router = useRouter()
 
@@ -152,6 +155,17 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
           <input type="submit" value="Edit Event" className="btn" />
         </div>
       </form>
+      <div>
+        <button
+          onClick={() => setShowModal(true)}
+          className="btn-secondary btn-icon"
+        >
+          Set Image
+        </button>
+      </div>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        <h1>aaa</h1>
+      </Modal>
     </Layout>
   )
 }
