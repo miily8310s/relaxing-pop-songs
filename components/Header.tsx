@@ -18,6 +18,11 @@ export const Header = (): JSX.Element => {
           <li>
             <Link href="/songs">Songs</Link>
           </li>
+          <li>
+            <Link href="/songs/add">
+              <a>Add Song</a>
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

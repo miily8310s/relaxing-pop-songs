@@ -6,10 +6,12 @@ import React, { useState } from 'react'
 
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
+import ImageUpload from '@/components/ImageUpload'
 
 import { Song } from '@/types/index'
 
@@ -28,6 +30,9 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
     spotify: song.spotify,
   })
 
+  const [imagePreview, setImagePreview] = useState(
+    song.image ? song.image.formats.thumbnail.url : null
+  )
   const [showModal, setShowModal] = useState(false)
 
   const router = useRouter()
@@ -65,8 +70,15 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
     setValues({ ...values, [name]: value })
   }
 
+  const imageUploaded = async (e) => {
+    const res = await fetch(`${API_URL}/songs/${song.id}`)
+    const data = await res.json()
+    setImagePreview(data.image.formats.thumbnail.url)
+    setShowModal(false)
+  }
+
   return (
-    <Layout title="Add New Song">
+    <Layout title="Edit Song">
       <Link href="/songs">Go Back</Link>
       <h1>Edit Song</h1>
       <ToastContainer />
@@ -155,6 +167,14 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
           <input type="submit" value="Edit Event" className="btn" />
         </div>
       </form>
+      <h2>Event Image</h2>
+      {imagePreview ? (
+        <Image src={imagePreview} height={100} width={170} />
+      ) : (
+        <div>
+          <p>No image uploaded</p>
+        </div>
+      )}
       <div>
         <button
           onClick={() => setShowModal(true)}
@@ -164,7 +184,7 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
         </button>
       </div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <h1>aaa</h1>
+        <ImageUpload songId={song.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   )
