@@ -1,24 +1,30 @@
+import dayjs from 'dayjs'
+// import { FaImage } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import React, { useState } from 'react'
+
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import Layout from '@/components/Layout'
 
+import { Song } from '@/types/index'
+
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.scss'
 
-export const AddSongPage = (): JSX.Element => {
+export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
   const [values, setValues] = useState({
-    name: '',
-    artist: '',
-    label: '',
-    album: '',
-    date: '',
-    description: '',
-    youtube: '',
-    spotify: '',
+    name: song.name,
+    artist: song.artist,
+    label: song.label,
+    album: song.album,
+    date: song.date,
+    description: song.description,
+    youtube: song.youtube,
+    spotify: song.spotify,
   })
 
   const router = useRouter()
@@ -33,8 +39,8 @@ export const AddSongPage = (): JSX.Element => {
       toast.error('Please set values in all fields...')
     }
 
-    const res = await fetch(`${API_URL}/songs`, {
-      method: 'POST',
+    const res = await fetch(`${API_URL}/songs/${song.id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -59,7 +65,7 @@ export const AddSongPage = (): JSX.Element => {
   return (
     <Layout title="Add New Song">
       <Link href="/songs">Go Back</Link>
-      <h1>Add Song</h1>
+      <h1>Edit Song</h1>
       <ToastContainer />
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
@@ -109,7 +115,7 @@ export const AddSongPage = (): JSX.Element => {
               type="date"
               id="date"
               name="date"
-              value={values.date}
+              value={dayjs(values.date).format('YYYY-MM-DD')}
               onChange={handleInputChange}
             />
           </div>
@@ -143,11 +149,23 @@ export const AddSongPage = (): JSX.Element => {
               onChange={handleInputChange}
             />
           </div>
-          <input type="submit" value="Add Event" className="btn" />
+          <input type="submit" value="Edit Event" className="btn" />
         </div>
       </form>
     </Layout>
   )
 }
 
-export default AddSongPage
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context.params.id
+  const res = await fetch(`${API_URL}/songs/${id}`)
+  const song = await res.json()
+
+  return {
+    props: {
+      song,
+    },
+  }
+}
+
+export default EditSongPage

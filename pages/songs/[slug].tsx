@@ -37,13 +37,13 @@ export const SongPage = ({ song }: { song: Song }): JSX.Element => {
     <Layout>
       <div className={styles.song}>
         <div className={styles.controls}>
-          <Link href={`/songs/edit/${song.slug}`}>
+          <Link href={`/songs/edit/${song.id}`}>
             <a>
-              <FaPencilAlt /> Edit Event
+              <FaPencilAlt /> Edit Song
             </a>
           </Link>
           <a href="#" className={styles.delete} onClick={deleteEvent}>
-            <FaTimes /> Delete Event
+            <FaTimes /> Delete Song
           </a>
         </div>
 

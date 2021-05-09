@@ -1,0 +1,26 @@
+.form {
+  label {
+    display: block;
+  }
+  input,
+  textarea {
+    width: 100%;
+  }
+  input {
+    height: 40px;
+    padding: 5px;
+  }
+  textarea {
+    height: 150px;
+  }
+  input[type='submit'] {
+    margin: 20px 0 30px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 30px;
+}
