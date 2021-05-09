@@ -11,8 +11,7 @@ const ImageUpload = ({
 }): JSX.Element => {
   const [image, setImage] = useState(null)
 
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData()
     formData.append('files', image)
