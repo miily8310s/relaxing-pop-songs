@@ -1,10 +1,11 @@
 import { FaUserAlt } from 'react-icons/fa'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import Link from 'next/link'
 
 import Layout from '@/components/Layout'
+import { AuthContext } from '@/context/AuthContext'
 
 import styles from '@/styles/AuthForm.module.scss'
 
@@ -12,9 +13,11 @@ export const LoginPage = (): JSX.Element => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const { login } = useContext(AuthContext)
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log({ email, password })
+    login({ email, password })
   }
 
   return (

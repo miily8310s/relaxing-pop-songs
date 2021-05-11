@@ -18,7 +18,8 @@
       "@/components/*": ["components/*"],
       "@/styles/*": ["styles/*"],
       "@/types/*": ["types/*"],
-      "@/config/*": ["config/*"]
+      "@/config/*": ["config/*"],
+      "@/context/*": ["context/*"]
     }
   },
   "exclude": ["node_modules", ".next", "out"],
