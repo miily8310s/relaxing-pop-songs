@@ -23,11 +23,12 @@ h1 {
 
 .btn {
   display: inline-block;
-  background: crimson;
+  background: cadetblue;
   color: #fff;
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 5px;
+  border: 2px solid seagreen;
 
   &-secondary {
     font-size: 13px;
