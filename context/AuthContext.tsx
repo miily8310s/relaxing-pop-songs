@@ -7,7 +7,7 @@ interface Props {
 interface AuthContextType {
   user: string
   error: string
-  register: (user: string) => Promise<void>
+  register: ({ user, email: identifier, password }) => Promise<void>
   login: ({ email: identifier, password }) => Promise<void>
   logout: () => void
 }
@@ -15,8 +15,8 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   error: null,
-  register: async (user) => {
-    console.log(user)
+  register: async ({ user, email: identifier, password }) => {
+    console.log({ user, identifier, password })
   },
   login: async ({ email: identifier, password }) => {
     console.log({ identifier, password })
