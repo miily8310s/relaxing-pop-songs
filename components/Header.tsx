@@ -1,3 +1,4 @@
+import { FaSignInAlt } from 'react-icons/fa'
 import Link from 'next/link'
 import Search from '@/components/Search'
 import styles from '@/styles/Header.module.scss'
@@ -21,6 +22,13 @@ export const Header = (): JSX.Element => {
           <li>
             <Link href="/songs/add">
               <a>Add Song</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/account/login">
+              <a className="btn-secondary btn-icon">
+                <FaSignInAlt /> Login
+              </a>
             </Link>
           </li>
         </ul>
