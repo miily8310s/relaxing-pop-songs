@@ -1,7 +1,13 @@
 import { FaUserAlt } from 'react-icons/fa'
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import Link from 'next/link'
 
 import Layout from '@/components/Layout'
@@ -13,7 +19,9 @@ export const LoginPage = (): JSX.Element => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { login } = useContext(AuthContext)
+  const { login, error } = useContext(AuthContext)
+
+  useEffect(() => error && toast.error(error))
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
