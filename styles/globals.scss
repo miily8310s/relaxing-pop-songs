@@ -34,6 +34,12 @@ h1 {
     font-size: 13px;
     background: #000;
     margin: 0 20px;
+    color: #fff !important;
+    border: 0;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 0 20px;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;

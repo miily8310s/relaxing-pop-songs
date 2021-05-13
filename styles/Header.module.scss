@@ -20,9 +20,10 @@
     list-style: none;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
-  li:last-child {
-    margin-left: 25px;
+  li {
+    margin-right: 5px;
   }
 }
 
