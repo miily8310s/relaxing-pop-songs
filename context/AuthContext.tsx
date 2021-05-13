@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { NEXT_URL } from '@/config/index'
+import { useRouter } from 'next/router'
 
 interface Props {
   children: ReactNode
@@ -31,6 +32,9 @@ export function AuthProvider({ children }: Props) {
   const [user, setUser] = useState(null)
   const [error, setError] = useState(null)
 
+  const router = useRouter()
+  useEffect(() => checkUserLoggedIn(), [])
+
   // Register user
   const register = async (user) => {
     console.log(user)
@@ -56,6 +60,7 @@ export function AuthProvider({ children }: Props) {
 
     if (res.ok) {
       setUser(data.user)
+      router.push('/account/dashboard')
     } else {
       setError(data.message)
       setError(null)
@@ -68,9 +73,16 @@ export function AuthProvider({ children }: Props) {
   }
 
   // Check if user is logged in
-  // const checkUserLoggedIn = async (user) => {
-  // console.log('Check')
-  // }
+  const checkUserLoggedIn = async () => {
+    const res = await fetch(`${NEXT_URL}/api/user`)
+    const data = await res.json()
+
+    if (res.ok) {
+      setUser(data.user)
+    } else {
+      setUser(null)
+    }
+  }
 
   return (
     <AuthContext.Provider value={{ user, error, register, login, logout }}>
