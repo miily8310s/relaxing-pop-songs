@@ -19,7 +19,8 @@
       "@/styles/*": ["styles/*"],
       "@/types/*": ["types/*"],
       "@/config/*": ["config/*"],
-      "@/context/*": ["context/*"]
+      "@/context/*": ["context/*"],
+      "@/helpers/*": ["helpers/*"]
     }
   },
   "exclude": ["node_modules", ".next", "out"],
