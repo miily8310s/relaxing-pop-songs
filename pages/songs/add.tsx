@@ -1,6 +1,8 @@
+import parseCookies from '@/helpers/index'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import React, { useState } from 'react'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -9,7 +11,7 @@ import Layout from '@/components/Layout'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.scss'
 
-export const AddSongPage = (): JSX.Element => {
+export const AddSongPage = ({ token }): JSX.Element => {
   const [values, setValues] = useState({
     name: '',
     artist: '',
@@ -37,11 +39,16 @@ export const AddSongPage = (): JSX.Element => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(values),
     })
 
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('No token included')
+        return
+      }
       toast.error('Something Went Wrong')
     } else {
       const song = await res.json()
@@ -143,11 +150,21 @@ export const AddSongPage = (): JSX.Element => {
               onChange={handleInputChange}
             />
           </div>
-          <input type="submit" value="Add Event" className="btn" />
+          <input type="submit" value="Add Song" className="btn" />
         </div>
       </form>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async({ req }) => {
+  const { token } = parseCookies(req)
+
+  return {
+    props: {
+      token,
+    },
+  }
 }
 
 export default AddSongPage
