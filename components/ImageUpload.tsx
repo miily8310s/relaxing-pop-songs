@@ -5,9 +5,11 @@ import styles from '@/styles/Form.module.scss'
 const ImageUpload = ({
   songId,
   imageUploaded,
+  token
 }: {
   songId: string
   imageUploaded: any
+  token: any
 }): JSX.Element => {
   const [image, setImage] = useState(null)
 
@@ -21,6 +23,9 @@ const ImageUpload = ({
 
     const res = await fetch(`${API_URL}/upload`, {
       method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       body: formData,
     })
 

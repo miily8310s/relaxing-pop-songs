@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import React, { useState } from 'react'
+import parseCookies from '@/helpers/index'
 
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
@@ -17,7 +18,7 @@ import { Song } from '@/types/index'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.scss'
 
-export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
+export const EditSongPage = ({ song, token }: { song: Song, token: any }): JSX.Element => {
   const [values, setValues] = useState({
     name: song.name,
     artist: song.artist,
@@ -55,6 +56,10 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
     })
 
     if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        toast.error('Unauthorized')
+        return
+      }
       toast.error('Something Went Wrong')
     } else {
       const song = await res.json()
@@ -69,7 +74,7 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
     setValues({ ...values, [name]: value })
   }
 
-  const imageUploaded = async (e) => {
+  const imageUploaded = async () => {
     const res = await fetch(`${API_URL}/songs/${song.id}`)
     const data = await res.json()
     setImagePreview(data.image.formats.thumbnail.url)
@@ -183,13 +188,16 @@ export const EditSongPage = ({ song }: { song: Song }): JSX.Element => {
         </button>
       </div>
       <Modal show={showModal} onClose={() => setShowModal(false)}>
-        <ImageUpload songId={song.id} imageUploaded={imageUploaded} />
+        <ImageUpload songId={song.id} imageUploaded={imageUploaded} token={token} />
       </Modal>
     </Layout>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const req = context.req
+  const { token } = parseCookies(req)
+  
   const id = context.params.id
   const res = await fetch(`${API_URL}/songs/${id}`)
   const song = await res.json()
@@ -197,6 +205,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       song,
+      token
     },
   }
 }
