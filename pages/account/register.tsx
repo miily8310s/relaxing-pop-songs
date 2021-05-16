@@ -10,14 +10,19 @@ import { AuthContext } from '@/context/AuthContext'
 import styles from '@/styles/AuthForm.module.scss'
 
 export const RegisterPage = (): JSX.Element => {
-  const [username, setUsername] = useState('')
+  const [user, setUser] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
 
   const { register, error } = useContext(AuthContext)
 
-  useEffect(() => error && toast.error(error))
+  useEffect(() => {
+    const toastError = () => {
+      error && toast.error(error)
+    }
+    toastError()
+  })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -26,7 +31,7 @@ export const RegisterPage = (): JSX.Element => {
       return
     }
 
-    register({ username, email, password })
+    register({ user, email, password })
   }
 
   return (
@@ -38,13 +43,13 @@ export const RegisterPage = (): JSX.Element => {
         <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className={styles.auth__bottom}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="user">Username</label>
             <input
               type="text"
-              id="username"
-              value={username}
+              id="user"
+              value={user}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setUsername(e.target.value)
+                setUser(e.target.value)
               }
             />
           </div>

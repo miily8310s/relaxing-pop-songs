@@ -8,7 +8,7 @@ interface Props {
 
 interface AuthContextType {
   user: string
-  error: string
+  error: any
   register: ({ user, email: identifier, password }) => Promise<void>
   login: ({ email: identifier, password }) => Promise<void>
   logout: () => void
@@ -33,7 +33,21 @@ export function AuthProvider({ children }: Props) {
   const [error, setError] = useState(null)
 
   const router = useRouter()
-  useEffect(() => checkUserLoggedIn(), [])
+  // useEffect(() => checkUserLoggedIn(), [])
+  // Check if user is logged in
+  useEffect(() => {
+    const checkUserLoggedIn = async () => {
+      const res = await fetch(`${NEXT_URL}/api/user`)
+      const data = await res.json()
+
+      if (res.ok) {
+        setUser(data.user)
+      } else {
+        setUser(null)
+      }
+    }
+    checkUserLoggedIn()
+  }, [])
 
   // Register user
   const register = async (user) => {
@@ -93,16 +107,16 @@ export function AuthProvider({ children }: Props) {
   }
 
   // Check if user is logged in
-  const checkUserLoggedIn = async () => {
-    const res = await fetch(`${NEXT_URL}/api/user`)
-    const data = await res.json()
-
-    if (res.ok) {
-      setUser(data.user)
-    } else {
-      setUser(null)
-    }
-  }
+  // const checkUserLoggedIn = async () => {
+  // const res = await fetch(`${NEXT_URL}/api/user`)
+  // const data = await res.json()
+  //
+  // if (res.ok) {
+  // setUser(data.user)
+  // } else {
+  // setUser(null)
+  // }
+  // }
 
   return (
     <AuthContext.Provider value={{ user, error, register, login, logout }}>

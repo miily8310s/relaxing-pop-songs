@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetServerSideProps } from 'next'
 
 import Layout from '@/components/Layout'
 
@@ -50,24 +50,42 @@ export const SongPage = ({ song }: { song: Song }): JSX.Element => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(`${API_URL}/songs/`)
-  const songs = await res.json()
+// export const getStaticPaths: GetStaticPaths = async () => {
+  // const res = await fetch(`${API_URL}/songs/`)
+  // const songs = await res.json()
+// 
+  // const paths = songs.map((song: Song) => {
+    // return {
+      // params: { slug: song.slug },
+    // }
+  // })
+// 
+  // return {
+    // paths,
+    // fallback: true,
+  // }
+// }
 
-  const paths = songs.map((song: Song) => {
-    return {
-      params: { slug: song.slug },
-    }
-  })
+// export const getStaticProps: GetStaticProps = async (context) => {
+  // const slug = context.params.slug
+  // const res = await fetch(`${API_URL}/songs?slug=${slug}`)
+  // const songs = await res.json()
+// 
+  // if (!songs) {
+    // return {
+      // notFound: true,
+    // }
+  // }
+  // return {
+    // props: {
+      // song: songs[0],
+    // },
+    // revalidate: 1,
+  // }
+// }
 
-  return {
-    paths,
-    fallback: true,
-  }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const slug = context.params.slug
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const slug = context.query.slug
   const res = await fetch(`${API_URL}/songs?slug=${slug}`)
   const songs = await res.json()
 

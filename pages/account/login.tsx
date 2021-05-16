@@ -21,7 +21,12 @@ export const LoginPage = (): JSX.Element => {
 
   const { login, error } = useContext(AuthContext)
 
-  useEffect(() => error && toast.error(error))
+  useEffect(() => {
+    const toastError = () => {
+      error && toast.error(error)
+    }
+    toastError()
+  })
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
